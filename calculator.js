@@ -55,9 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const notGroundRatioLeafToWater1 = 15.38; // กก. ใบ : ลิตร น้ำ
     const notGroundRatioWaterToYield1 = 12 / 15.38; // ลิตร น้ำ : ลิตร น้ำกระท่อมดิบ
     
-    // อัตราส่วนสำหรับวิธีไม่บด ( # 0.66 # )
-    const notGroundRatioLeafToWater2 = 15.15151515; // กก. ใบ : ลิตร น้ำ
-    const notGroundRatioWaterToYield2 = 12 / 15.15151515; // ลิตร น้ำ : ลิตร น้ำกระท่อมดิบ
+    // อัตราส่วนสำหรับวิธีไม่บด ( # 0.63 # )
+    const notGroundRatioLeafToWater2 = 15.874; // กก. ใบ : ลิตร น้ำ
+    const notGroundRatioWaterToYield2 = 12 / 15.873; // ลิตร น้ำ : ลิตร น้ำกระท่อมดิบ
     
     if (leaf > 0) {
       groundLeaf = leaf;
