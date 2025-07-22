@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบจัดการร้านน้ำกระท่อม - บันทึกการขาย</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/favicon.ico">
+  <!-- เพิ่ม Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+
+<!-- ในส่วน head -->
+<script type="module" src="firebase.js"></script>
+<script type="module" src="script.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="โลโก้าร้านน้ำกระท่อม" class="logo">
+        <h1><i class="fas fa-chart-line"></i> ระบบบันทึกการขายน้ำกระท่อม</h1>
+      </div>
+      <div class="header-controls">
+        <div class="current-date" id="currentDate"></div>
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> บันทึกการขาย</a>
+          <a href="calculator.html" class="nav-link"><i class="fas fa-calculator"></i> คำนวณวัตถุดิบ</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <form id="saleForm" class="form-section">
+        <div class="form-card">
+          <div class="card-header">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>ข้อมูลการขายวันนี้</h2>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date"><i class="far fa-calendar-alt"></i> วันที่</label>
+              <input type="date" id="date" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sold"><i class="fas fa-wine-bottle"></i> จำนวนที่ขาย (ขวด)</label>
+              <input type="number" id="sold" min="0" value="0" required />
+            </div>
+            <div class="form-group">
+              <label for="price"><i class="fas fa-tag"></i> ราคาต่อขวด (บาท)</label>
+              <input type="number" id="price" min="0" value="40" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pending"><i class="fas fa-clock"></i> ค้างน้ำดิบ (ขวด)</label>
+              <input type="number" id="pending" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="cleared"><i class="fas fa-check-circle"></i> เคลียร์ยอดค้าง (ขวด)</label>
+              <input type="number" id="cleared" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="output-box revenue">
+            <span>รายรับวันนี้:</span>
+            <strong id="revenue">0</strong> บาท
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="card-header">
+            <i class="fas fa-money-bill-wave"></i>
+            <h2>รายการค่าใช้จ่าย</h2>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="leafCost"><i class="fas fa-leaf"></i> ค่าใบกระท่อม</label>
+              <input type="number" id="leafCost" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label for="pipeFee"><i class="fas fa-tools"></i> ค่าท่อม</label>
+              <input type="number" id="pipeFee" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="shareFee"><i class="fas fa-handshake"></i> ค่าแชร์</label>
+              <input type="number" id="shareFee" min="0" value="100" />
+            </div>
+            <div class="form-group">
+              <label for="otherFee"><i class="fas fa-receipt"></i> ค่าใช้จ่ายอื่น</label>
+              <input type="number" id="otherFee" min="0" value="0" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="saveFee"><i class="fas fa-piggy-bank"></i> เก็บออมเงิน</label>
+              <input type="number" id="saveFee" min="0" value="500" />
+            </div>
+          </div>
+
+          <div class="output-box expense">
+            <span>รายจ่ายวันนี้:</span>
+            <strong id="expense">0</strong> บาท
+          </div>
+        </div>
+
+        <div class="form-card summary">
+          <div class="card-header">
+            <i class="fas fa-calculator"></i>
+            <h2>สรุปยอดวันนี้</h2>
+          </div>
+          <div class="output-box balance">
+            <span>ยอดคงเหลือ:</span>
+            <strong id="balance">0</strong> บาท
+          </div>
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-save"></i> บันทึกข้อมูล
+          </button>
+        </div>
+      </form>
+
+      <div class="sales-history">
+        <div class="card-header">
+          <i class="fas fa-history"></i>
+          <h2>ประวัติการขาย 7 วันล่าสุด</h2>
+          <button id="exportBtn" class="export-btn">
+            <i class="fas fa-file-export"></i> ส่งออกข้อมูล
+          </button>
+        </div>
+        <table id="salesTable">
+          <thead>
+            <tr>
+              <th>วันที่</th>
+              <th>ขาย (ขวด)</th>
+              <th>ค้าง (ขวด)</th>
+              <th>เคลียร์ (ขวด)</th>
+              <th>รายรับ (บาท)</th>
+              <th>รายจ่าย (บาท)</th>
+              <th>คงเหลือ (บาท)</th>
+              <th>การกระทำ</th>
+            </tr>
+          </thead>
+          <tbody id="salesTableBody">
+            <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="msg" class="msg-box"></div>
+  </div>
+
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

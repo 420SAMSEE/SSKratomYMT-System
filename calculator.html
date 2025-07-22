@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบจัดการร้านน้ำกระท่อม - คำนวณวัตถุดิบ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/favicon.ico">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="โลโก้าร้านน้ำกระท่อม" class="logo">
+        <h1><i class="fas fa-calculator"></i> ระบบคำนวณวัตถุดิบน้ำกระท่อม</h1>
+      </div>
+      <div class="header-controls">
+        <div class="current-date" id="currentDate"></div>
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link"><i class="fas fa-home"></i> บันทึกการขาย</a>
+          <a href="calculator.html" class="nav-link active"><i class="fas fa-calculator"></i> คำนวณวัตถุดิบ</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="calculator-section">
+        <div class="calculator-card">
+          <div class="card-header">
+            <i class="fas fa-leaf"></i>
+            <h2>คำนวณวัตถุดิบน้ำกระท่อม</h2>
+          </div>
+
+          <div class="input-group">
+            <label for="leafInput"><i class="fas fa-weight-hanging"></i> ปริมาณใบกระท่อม (กก.):</label>
+            <input type="number" id="leafInput" placeholder="ระบุ (กก.)" min="0" step="0.1">
+          </div>
+
+          <div class="input-group">
+            <label for="waterInput"><i class="fas fa-tint"></i> ปริมาณน้ำ (ลิตร):</label>
+            <input type="number" id="waterInput" placeholder="ระบุ (ลิตร)" min="0" step="0.1">
+          </div>
+
+          <div class="input-group">
+            <label for="yieldInput"><i class="fas fa-wine-bottle"></i> ปริมาณน้ำกระท่อมดิบที่ต้องการ (ลิตร):</label>
+            <input type="number" id="yieldInput" placeholder="ระบุ (ลิตร)" min="0" step="0.1">
+          </div>
+
+          <div class="button-group">
+            <button id="calculateButton" class="btn-calculate">
+              <i class="fas fa-calculator"></i> คำนวณ
+            </button>
+            <button id="resetButton" class="btn-reset">
+              <i class="fas fa-redo"></i> รีเซ็ต
+            </button>
+          </div>
+
+          <div class="result-container" id="resultContainer">
+            <h3><i class="fas fa-clipboard-list"></i> ผลลัพธ์การคำนวณ</h3>
+
+            <div class="result-section">
+              <h4><i class="fas fa-mortar-pestle"></i> แบบบดใบกระท่อม</h4>
+              <div class="result-item">
+                <span>ใบกระท่อม:</span>
+                <strong id="resultGroundLeaf">0</strong> กก.
+              </div>
+              <div class="result-item">
+                <span>น้ำ:</span>
+                <strong id="resultGroundWater">0</strong> ลิตร
+              </div>
+              <div class="result-item">
+                <span>น้ำกระท่อมดิบ:</span>
+                <strong id="resultGroundYield">0</strong> ลิตร
+              </div>
+            </div>
+
+            <div class="result-section">
+              <h4><i class="fas fa-leaf"></i> แบบไม่บดใบ (อัตราส่วน 0.65)</h4>
+              <div class="result-item">
+                <span>ใบกระท่อม:</span>
+                <strong id="resultNotGroundLeaf1">0</strong> กก.
+              </div>
+              <div class="result-item">
+                <span>น้ำ:</span>
+                <strong id="resultNotGroundWater1">0</strong> ลิตร
+              </div>
+              <div class="result-item">
+                <span>น้ำกระท่อมดิบ:</span>
+                <strong id="resultNotGroundYield1">0</strong> ลิตร
+              </div>
+            </div>
+
+            <div class="result-section">
+              <h4><i class="fas fa-leaf"></i> แบบไม่บดใบ (อัตราส่วน 0.66)</h4>
+              <div class="result-item">
+                <span>ใบกระท่อม:</span>
+                <strong id="resultNotGroundLeaf2">0</strong> กก.
+              </div>
+              <div class="result-item">
+                <span>น้ำ:</span>
+                <strong id="resultNotGroundWater2">0</strong> ลิตร
+              </div>
+              <div class="result-item">
+                <span>น้ำกระท่อมดิบ:</span>
+                <strong id="resultNotGroundYield2">0</strong> ลิตร
+              </div>
+            </div>
+
+            <div class="note">
+              <p><i class="fas fa-info-circle"></i> <strong>หมายเหตุ:</strong> อัตราส่วนเหล่านี้เป็นค่าเฉพาะของสูตรน้ำกระท่อม SS789.Kratom (สูตรสามสี)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="calculator.js"></script>
+</body>
+</html>
